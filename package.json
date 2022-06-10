@@ -13,6 +13,7 @@
   "author": "whitep4nth3r",
   "license": "MIT",
   "dependencies": {
+    "@whitep4nth3r/get-random-entry": "^0.0.2",
     "parcel": "^2.6.0",
     "tmi.js": "^1.8.5",
     "tone": "^14.7.77"
