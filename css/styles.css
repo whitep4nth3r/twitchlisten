@@ -1,0 +1,16 @@
+html {
+  font-family: system-ui;
+  font-size: 100%;
+}
+
+.canvas {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  cursor: pointer;
+}
+
+.canvas span {
+  display: block;
+  border-radius: 50%;
+}

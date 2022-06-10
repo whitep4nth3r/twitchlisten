@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TwitchListen</title>
+
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <main>
@@ -13,8 +15,8 @@
         <input type="text" id="channel" name="channel" />
         <button type="submit">Listen</button>
       </form>
-      <div>
-        <button data-button>Click to listen</button>
+      <div data-canvas class="canvas">
+        <p data-unmute-message>Please click anywhere to unmute</p>
       </div>
     </main>
 
