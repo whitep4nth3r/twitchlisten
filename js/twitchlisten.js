@@ -1,17 +1,41 @@
 import tmi from "tmi.js";
 
-const params = new URLSearchParams(document.location.search);
-let channelName = params.get("channel");
+let channelName = getChannelParam();
 
-const client = new tmi.Client({
-  channels: [channelName],
-});
+function getChannelParam() {
+  const params = new URLSearchParams(document.location.search);
+  return params.get("channel");
+}
 
-client.connect();
+function activateTwitch(channelName) {
+  console.log("ACTIVATING TWITCH FOR CHANNEL ", channelName);
+  document.title = `TwitchListen | ${channelName}`;
 
-console.log(client);
+  const client = new tmi.Client({
+    channels: [channelName],
+  });
 
-client.on("message", (channel, tags, message, self) => {
-  if (self) return;
-  console.log(message);
-});
+  client.connect();
+
+  client.on("message", (channel, tags, message, self) => {
+    if (self) return;
+    console.log(message);
+  });
+}
+
+function submitForm(event) {
+  const channelName = getChannelParam();
+  activateTwitch(channelName);
+}
+
+const form = document.querySelector("[data-form]");
+form.addEventListener("submit", submitForm);
+
+function hideForm() {
+  form.remove();
+}
+
+if (getChannelParam() !== null) {
+  activateTwitch(channelName);
+  hideForm();
+}
