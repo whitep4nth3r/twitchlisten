@@ -1,0 +1,23 @@
+{
+  "name": "twitchlisten",
+  "version": "1.0.0",
+  "description": "Listen to your Twitch chat.",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./index.html --open",
+    "build": "parcel build ./index.html"
+  },
+  "keywords": [
+    "twitch"
+  ],
+  "author": "whitep4nth3r",
+  "license": "MIT",
+  "dependencies": {
+    "parcel": "^2.6.0",
+    "tmi.js": "^1.8.5",
+    "tone": "^14.7.77"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}
