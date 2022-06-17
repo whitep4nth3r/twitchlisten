@@ -1,12 +1,9 @@
 import tmi from "tmi.js";
-import * as Tone from "tone";
 import { getRandomEntry } from "@whitep4nth3r/get-random-entry";
 
 const ignoredUsers = ["p4nth3rb0t"]; //to do add ignored as url params
 
-const notes = ["A", "B", "C", "E", "F"];
-// for reference
-const octaves = ["2", "3", "4", "5", "6"];
+const notes = ["d_flat", "e_flat", "g_flat", "a_flat", "b_flat"];
 
 function calculateOctave(size) {
   const thresholds = ["120", "80", "50", "25", "10"];
@@ -15,7 +12,7 @@ function calculateOctave(size) {
     thresholds.reduce((acc, threshold) => (Math.abs(size - threshold) < Math.abs(size - acc) ? threshold : acc));
 
   const closestItem = getClosestThreshold(thresholds, size);
-  return thresholds.indexOf(closestItem) + 2;
+  return thresholds.indexOf(closestItem) + 1;
 }
 
 function getChannelParam() {
@@ -25,6 +22,23 @@ function getChannelParam() {
 
 function submitForm(event) {
   channelName = getChannelParam();
+}
+
+function addAudioElement(size) {
+  const newNote = `${getRandomEntry(notes)}_${calculateOctave(size)}`;
+
+  const audio = document.createElement("audio");
+  audio.autoplay = true;
+  const audioId = Math.random();
+  audio.dataset.audioId = audioId;
+  const source = document.createElement("source");
+
+  source.setAttribute("src", `/sounds/${newNote}.mp3`);
+  audio.appendChild(source);
+  canvas.appendChild(audio);
+
+  // Remove audio from DOM after 10s
+  setTimeout(() => removeAudio(audioId), 10000);
 }
 
 function addBubble(size) {
@@ -46,41 +60,42 @@ function removeBubble(bubbleId) {
   document.querySelector("[data-bubble-id='" + bubbleId + "']").remove();
 }
 
-let synth = null;
+function removeAudio(audioId) {
+  document.querySelector("[data-audio-id='" + audioId + "']").remove();
+}
+
+let activate = null;
 let channelName = getChannelParam();
 
 function activateTwitch(channelName) {
   document.title = `TwitchListen | ${channelName}`;
 
-  if (synth !== null) {
+  if (activate) {
     const client = new tmi.Client({
       channels: [channelName],
     });
 
     client.connect();
-    console.log("Listening to ", channelName);
+    console.log("TwitchListen listening to ", channelName);
 
     client.on("chat", (channel, tags, message, self) => {
       console.log("Message received: ", message);
       if (!ignoredUsers.includes(tags["display-name"])) {
-        const newNote = getRandomEntry(notes) + calculateOctave(message.length);
-
-        //to do — but that happens every now and then
-        //Debug.ts:8 Uncaught Error: Start time must be strictly greater than previous start time
-        synth.triggerAttackRelease(newNote, "8n");
         addBubble(message.length);
+        addAudioElement(message.length);
       } else {
         console.log("Ignoring user ", tags["display-name"]);
       }
     });
   } else {
-    console.log("No synth found!");
+    console.log("TwitchListen not activated!");
   }
 }
 
 /**
+ * TODO — UNMUTE BUTTON
  * Listen button
- * Tone requires user interaction before we can activate the synth
+ * Browser audio requires user interaction before it can play
  */
 const canvas = document.querySelector("[data-canvas]");
 const unmuteMessage = document.querySelector("[data-unmute-message]");
@@ -88,10 +103,8 @@ const unmuteMessage = document.querySelector("[data-unmute-message]");
 unmuteMessage.style.display = "none";
 
 canvas.addEventListener("click", async () => {
-  await Tone.start();
-  console.log("Audio is ready!");
-  // assign synth
-  synth = new Tone.Synth().toDestination();
+  console.log("Interaction found!");
+  activate = true;
   unmuteMessage.remove();
   activateTwitch(channelName);
 });
