@@ -33,7 +33,7 @@ function addAudioElement(size) {
   audio.dataset.audioId = audioId;
   const source = document.createElement("source");
 
-  source.setAttribute("src", `/sounds/${newNote}.mp3`);
+  source.setAttribute("src", `/${newNote}.mp3`);
   audio.appendChild(source);
   canvas.appendChild(audio);
 

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Listen to your Twitch chat.",
   "scripts": {
-    "start": "cp -R ./sounds ./dist/sounds && parcel ./index.html --open",
-    "build": "cp -R ./sounds ./dist/sounds && parcel build ./index.html"
+    "start": "cp -R ./sounds ./dist && parcel ./index.html --open",
+    "build": "cp -R ./sounds ./dist && parcel build ./index.html"
   },
   "keywords": [
     "twitch"
