@@ -11,6 +11,13 @@ html {
 }
 
 .canvas span {
+  --size: 300px;
+
   display: block;
-  border-radius: 50%;
+  background: transparent;
+  border-radius: 100%;
+  margin: 0;
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle at calc(var(--size) / 3) calc(var(--size) / 3), transparent, #d91ca861);
 }

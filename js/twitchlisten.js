@@ -29,9 +29,7 @@ function submitForm(event) {
 
 function addBubble(size) {
   const bubble = document.createElement("span");
-  bubble.style.width = size + "px";
-  bubble.style.height = size + "px";
-  bubble.style.backgroundColor = "#000";
+  bubble.style.setProperty("--size", `${size}px`);
   //to do — put in random position at bottom of canvas
   //and then use animation to rise up
 
