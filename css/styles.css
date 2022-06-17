@@ -3,20 +3,44 @@ html {
   font-size: 100%;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+@keyframes floatUp {
+  from {
+    bottom: 0;
+  }
+  to {
+    bottom: 120%;
+  }
+}
+
 .canvas {
   display: grid;
   place-items: center;
   min-height: 100vh;
+  width: 100%;
   cursor: pointer;
+  position: relative;
 }
 
 .canvas span {
   --size: 300px;
+  --moveX: 0;
 
+  animation-name: floatUp;
+  animation-duration: 10s;
+  animation-iteration-count: 1;
+  animation-direction: forwards;
   display: block;
+  position: absolute;
+  bottom: 0;
+  left: var(--moveX);
+  margin: 0;
   background: transparent;
   border-radius: 100%;
-  margin: 0;
   width: var(--size);
   height: var(--size);
   background: radial-gradient(circle at calc(var(--size) / 3) calc(var(--size) / 3), transparent, #d91ca861);

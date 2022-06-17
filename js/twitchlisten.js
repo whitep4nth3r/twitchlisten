@@ -4,12 +4,12 @@ import { getRandomEntry } from "@whitep4nth3r/get-random-entry";
 
 const ignoredUsers = ["p4nth3rb0t"]; //to do add ignored as url params
 
-const notes = ["C", "D", "E", "G", "A"];
+const notes = ["A", "B", "C", "E", "F"];
 // for reference
 const octaves = ["2", "3", "4", "5", "6"];
 
 function calculateOctave(size) {
-  const thresholds = ["250", "200", "150", "100", "50"];
+  const thresholds = ["120", "80", "50", "25", "10"];
   // calculate the closest threshold item to size
   const getClosestThreshold = (thresholds, size) =>
     thresholds.reduce((acc, threshold) => (Math.abs(size - threshold) < Math.abs(size - acc) ? threshold : acc));
@@ -30,10 +30,20 @@ function submitForm(event) {
 function addBubble(size) {
   const bubble = document.createElement("span");
   bubble.style.setProperty("--size", `${size}px`);
-  //to do — put in random position at bottom of canvas
-  //and then use animation to rise up
 
+  // assign random X position at bottom of canvas
+  const moveX = (Math.random() * 100).toFixed();
+  bubble.style.setProperty("--moveX", `${moveX}vw`);
+  const bubbleId = Math.random();
+  bubble.dataset.bubbleId = bubbleId;
   canvas.appendChild(bubble);
+
+  // Remove bubble from DOM after 10s
+  setTimeout(() => removeBubble(bubbleId), 10000);
+}
+
+function removeBubble(bubbleId) {
+  document.querySelector("[data-bubble-id='" + bubbleId + "']").remove();
 }
 
 let synth = null;
