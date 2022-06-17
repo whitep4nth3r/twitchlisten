@@ -33,7 +33,7 @@ function addAudioElement(size) {
   audio.dataset.audioId = audioId;
   const source = document.createElement("source");
 
-  source.setAttribute("src", `/${newNote}.mp3`);
+  source.setAttribute("src", `/sounds/${newNote}.mp3`);
   audio.appendChild(source);
   canvas.appendChild(audio);
 
@@ -68,15 +68,14 @@ let activate = null;
 let channelName = getChannelParam();
 
 function activateTwitch(channelName) {
-  document.title = `TwitchListen | ${channelName}`;
-
   if (activate) {
+    document.title = `TwitchListen | ${channelName}`;
     const client = new tmi.Client({
       channels: [channelName],
     });
 
     client.connect();
-    console.log("TwitchListen listening to ", channelName);
+    console.log("TwitchListen listening to", channelName);
 
     client.on("chat", (channel, tags, message, self) => {
       console.log("Message received: ", message);
@@ -102,12 +101,15 @@ const unmuteMessage = document.querySelector("[data-unmute-message]");
 // on load hide listen button
 unmuteMessage.style.display = "none";
 
-canvas.addEventListener("click", async () => {
-  console.log("Interaction found!");
+function activateOnCanvasClick() {
+  console.log("Interaction found! Activating everything.");
+  canvas.removeEventListener("click", activateOnCanvasClick);
   activate = true;
   unmuteMessage.remove();
   activateTwitch(channelName);
-});
+}
+
+canvas.addEventListener("click", activateOnCanvasClick);
 
 /**
  * Enter channel name form
