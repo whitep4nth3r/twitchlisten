@@ -2,9 +2,21 @@ import tmi from "tmi.js";
 import * as Tone from "tone";
 import { getRandomEntry } from "@whitep4nth3r/get-random-entry";
 
-const notes = ["C", "D", "E", "G", "A"];
-const octaves = ["2", "3", "4", "5", "6"];
 const ignoredUsers = ["p4nth3rb0t"]; //to do add ignored as url params
+
+const notes = ["C", "D", "E", "G", "A"];
+// for reference
+const octaves = ["2", "3", "4", "5", "6"];
+
+function calculateOctave(size) {
+  const thresholds = ["250", "200", "150", "100", "50"];
+  // calculate the closest threshold item to size
+  const getClosestThreshold = (thresholds, size) =>
+    thresholds.reduce((acc, threshold) => (Math.abs(size - threshold) < Math.abs(size - acc) ? threshold : acc));
+
+  const closestItem = getClosestThreshold(thresholds, size);
+  return thresholds.indexOf(closestItem) + 2;
+}
 
 function getChannelParam() {
   const params = new URLSearchParams(document.location.search);
@@ -43,7 +55,7 @@ function activateTwitch(channelName) {
     client.on("chat", (channel, tags, message, self) => {
       console.log("Message received: ", message);
       if (!ignoredUsers.includes(tags["display-name"])) {
-        const newNote = getRandomEntry(notes) + getRandomEntry(octaves);
+        const newNote = getRandomEntry(notes) + calculateOctave(message.length);
 
         //to do — but that happens every now and then
         //Debug.ts:8 Uncaught Error: Start time must be strictly greater than previous start time
