@@ -10,11 +10,28 @@
   </head>
   <body>
     <main>
-      <form data-form>
-        <label for="channel">Enter your Twitch channel name to listen to your chat</label>
-        <input type="text" id="channel" name="channel" />
-        <button type="submit">Listen</button>
-      </form>
+      <div data-intro class="intro">
+        <h1>TwitchListen</h1>
+        <form data-form>
+          <label for="channel">Your Twitch channel</label>
+          <input type="text" id="channel" name="channel" />
+          <button type="submit">Listen</button>
+        </form>
+
+        <div class="instructions">
+          <h2>Add to OBS</h2>
+          <ol>
+            <li>Enter your Twitch channel name and click listen.</li>
+            <li>Grab the URL generated from your browser's address bar.</li>
+            <li>
+              And add a new browser source in OBS with that URL, choose to "Control audio via OBS" (you might also want
+              to choose to monitor and output this audio channel).
+            </li>
+            <li>To activate the listener, right click on the browser source in OBS and choose interact.</li>
+            <li>Click anywhere on the browser source to activate TwitchListen, and the message will disappear.</li>
+          </ol>
+        </div>
+      </div>
       <div data-canvas class="canvas">
         <p data-unmute-message>Please click anywhere to unmute</p>
       </div>

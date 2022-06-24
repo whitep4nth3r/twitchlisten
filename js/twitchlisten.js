@@ -21,7 +21,15 @@ function getChannelParam() {
 }
 
 function submitForm(event) {
-  channelName = getChannelParam();
+  if (!form.querySelector("#channel").value) {
+    event.preventDefault();
+  } else {
+    channelName = getChannelParam();
+  }
+}
+
+function unhideCanvas() {
+  canvas.style.display = "grid";
 }
 
 function addAudioElement(size) {
@@ -114,6 +122,7 @@ canvas.addEventListener("click", activateOnCanvasClick);
 /**
  * Enter channel name form
  */
+const intro = document.querySelector("[data-intro]");
 const form = document.querySelector("[data-form]");
 form.addEventListener("submit", submitForm);
 
@@ -122,7 +131,8 @@ form.addEventListener("submit", submitForm);
  * we can hide the channel name form
  */
 if (getChannelParam() !== null) {
+  unhideCanvas();
   activateTwitch(channelName);
-  form.remove();
+  intro.remove();
   unmuteMessage.style.display = "block";
 }
