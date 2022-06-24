@@ -20,6 +20,11 @@ function getChannelParam() {
   return params.get("channel");
 }
 
+function getThemeParam() {
+  const params = new URLSearchParams(document.location.search);
+  return params.get("theme");
+}
+
 function submitForm(event) {
   if (!form.querySelector("#channel").value) {
     event.preventDefault();
@@ -52,6 +57,7 @@ function addAudioElement(size) {
 function addBubble(size) {
   const bubble = document.createElement("span");
   bubble.style.setProperty("--size", `${size}px`);
+  bubble.style.setProperty("--theme", `var(--${theme})`);
 
   // assign random X position at bottom of canvas
   const moveX = (Math.random() * 100).toFixed();
@@ -74,6 +80,7 @@ function removeAudio(audioId) {
 
 let activate = null;
 let channelName = getChannelParam();
+let theme = getThemeParam();
 
 function activateTwitch(channelName) {
   if (activate) {
@@ -106,6 +113,7 @@ function activateTwitch(channelName) {
  */
 const canvas = document.querySelector("[data-canvas]");
 const unmuteMessage = document.querySelector("[data-unmute-message]");
+const header = document.querySelector("[data-header]");
 // on load hide listen button
 unmuteMessage.style.display = "none";
 
@@ -122,7 +130,6 @@ canvas.addEventListener("click", activateOnCanvasClick);
 /**
  * Enter channel name form
  */
-const intro = document.querySelector("[data-intro]");
 const form = document.querySelector("[data-form]");
 form.addEventListener("submit", submitForm);
 
@@ -133,6 +140,8 @@ form.addEventListener("submit", submitForm);
 if (getChannelParam() !== null) {
   unhideCanvas();
   activateTwitch(channelName);
-  intro.remove();
+  theme = getThemeParam();
+  form.remove();
+  header.remove();
   unmuteMessage.style.display = "block";
 }
