@@ -7,8 +7,8 @@
     "build": "parcel build ./index.html ./guide.html"
   },
   "staticFiles": {
-    "staticPath": "sounds",
-    "staticOutPath": "sounds"
+    "staticPath": "assets",
+    "staticOutPath": "assets"
   },
   "keywords": [
     "twitch"

@@ -59,9 +59,12 @@ header {
   text-align: center;
 }
 
-.logo {
-  width: 14rem;
-  height: auto;
+h1 {
+}
+
+h1 img {
+  height: 6rem;
+  width: auto;
 }
 
 .intro {
